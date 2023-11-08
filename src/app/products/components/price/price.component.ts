@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Subscription, interval } from 'rxjs';
 
 @Component({
   selector: 'products-price',
@@ -10,8 +11,12 @@ export class PriceComponent implements OnInit, OnChanges, OnDestroy {
   @Input()
   public price: number = 0;
 
+  public interval$?:Subscription;
+
   ngOnInit(): void {
     console.log('PriceComponent - ngOnInit');
+
+    this.interval$ = interval(1000).subscribe(value => console.log(`Tick: ${value}`))
 
   }
 
@@ -22,7 +27,7 @@ export class PriceComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnDestroy(): void {
     console.log('PriceComponent - ngOnDestroy');
-
+    this.interval$?.unsubscribe();
   }
 
 }
